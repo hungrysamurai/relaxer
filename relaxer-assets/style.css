@@ -1,0 +1,196 @@
+@import url("https://fonts.googleapis.com/css2?family=Exo+2&display=swap");
+
+:root {
+  --grow1: 4s;
+  --shrink1: 4s;
+  --total-time1: 9.5s;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Exo 2", sans-serif;
+  font-size: 1.5rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  margin: 0;
+}
+
+/* Granim canvas styles */
+#granim-canvas {
+  height: 103vh;
+  width: 103vw;
+  position: absolute;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  height: 350px;
+  width: 350px;
+  position: relative;
+  transform: scale(1);
+}
+
+.circle {
+  height: 90%;
+  width: 90%;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  animation: change-bg var(--total-time1) linear forwards infinite;
+}
+
+.gradient-circle {
+  background: conic-gradient(
+    #231942 0%,
+    #5e548e 30%,
+    #e0b1cb 40%,
+    #be95c4 60%,
+    #5e548e 70%,
+    #231942 100%
+  );
+  height: 100%;
+  width: 100%;
+  z-index: -2;
+  border-radius: 50%;
+  position: absolute;
+  animation: shadow-dynamic var(--total-time1) linear forwards infinite;
+}
+
+.pointer {
+  background-color: #fff;
+  border-radius: 50%;
+  height: 1.5rem;
+  width: 1.5rem;
+  display: block;
+  animation: change-bg var(--total-time1) linear forwards infinite;
+}
+
+.pointer-container {
+  position: absolute;
+  top: -17%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 70%;
+  animation: rotate var(--total-time1) linear forwards infinite;
+  transform-origin: bottom center;
+}
+
+.soundbutton {
+  position: fixed;
+  bottom: 5vh;
+  right: 5vw;
+  cursor: pointer;
+  width: 24px;
+  transition: 0.25s ease;
+}
+
+.soundbutton.paused {
+  opacity: 0.25;
+}
+
+@keyframes shadow-dynamic {
+  0% {
+    box-shadow: 0.1rem 0.1rem 1px rgba(0, 0, 0, 0.6);
+  }
+
+  40% {
+    box-shadow: 0.1rem 0.1rem 86px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  60% {
+    box-shadow: 0.1rem 0.1rem 86px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  100% {
+    box-shadow: 0.1rem 0.1rem 1px rgba(0, 0, 0, 0.6);
+  }
+}
+
+@keyframes change-bg {
+  0% {
+    background-color: #231942;
+  }
+
+  40% {
+    background-color: #5e548e;
+  }
+
+  50% {
+    background-color: #e0b1cb;
+  }
+
+  100% {
+    background-color: #231942;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.container.grow {
+  animation: grow var(--grow1) linear forwards;
+}
+
+@keyframes grow {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.2);
+  }
+}
+
+.container.shrink {
+  animation: shrink var(--shrink1) linear forwards;
+}
+
+@keyframes shrink {
+  from {
+    transform: scale(1.2);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+@media (max-width: 300px) {
+  .container {
+    width: 125px;
+    height: 125px;
+  }
+
+  .pointer {
+    width: 10px;
+    height: 10px;
+  }
+}

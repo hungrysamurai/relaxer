@@ -41,8 +41,8 @@ const gradients = [
     ["#4E313D", "#28102B"],
   ],
   [
-    ["#BEE3DB", "#FAF9F9"],
-    ["#FAF9F9", "#BEE3DB"],
+    ["#6D6875", "#FFCDB2"],
+    ["#FFCDB2", "#6D6875"],
   ],
 ];
 

@@ -5,60 +5,50 @@
   --shrink1: 3800ms;
   --total-time1: 9.5s;
   /* Color schema 0 */
-  --gradient0: conic-gradient(
-    #231942 0%,
-    #5e548e 30%,
-    #e0b1cb 50%,
-    #5e548e 70%,
-    #231942 100%
-  );
+  --gradient0: conic-gradient(#231942 0%,
+      #5e548e 30%,
+      #e0b1cb 50%,
+      #5e548e 70%,
+      #231942 100%);
   --color-schema0-dark: #231942;
   --color-schema0-med: #5e548e;
   --color-schema0-light: #e0b1cb;
   /* Color Schema 1 */
-  --gradient1: conic-gradient(
-    #023e8a 0%,
-    #00b4d8 30%,
-    #ade8f4 50%,
-    #00b4d8 70%,
-    #023e8a 100%
-  );
+  --gradient1: conic-gradient(#023e8a 0%,
+      #00b4d8 30%,
+      #ade8f4 50%,
+      #00b4d8 70%,
+      #023e8a 100%);
   --color-schema1-dark: #023e8a;
   --color-schema1-med: #00b4d8;
   --color-schema1-light: #ade8f4;
   /* Color Schema 2 */
-  --gradient2: conic-gradient(
-    #233b3f 0%,
-    #3f6964 30%,
-    #e2bf83 50%,
-    #3f6964 70%,
-    #233b3f 100%
-  );
+  --gradient2: conic-gradient(#233b3f 0%,
+      #3f6964 30%,
+      #e2bf83 50%,
+      #3f6964 70%,
+      #233b3f 100%);
   --color-schema2-dark: #233b3f;
   --color-schema2-med: #3f6964;
   --color-schema2-light: #e2bf83;
   /* Color Schema 3 */
-  --gradient3: conic-gradient(
-    #28102b 0%,
-    #381d30 30%,
-    #4e313d 50%,
-    #381d30 70%,
-    #28102b 100%
-  );
+  --gradient3: conic-gradient(#28102b 0%,
+      #381d30 30%,
+      #4e313d 50%,
+      #381d30 70%,
+      #28102b 100%);
   --color-schema3-dark: #28102b;
   --color-schema3-med: #381d30;
   --color-schema3-light: #4e313d;
   /* Color Schema 4 */
-  --gradient4: conic-gradient(
-    #bee3db 0%,
-    #ffd6ba 30%,
-    #faf9f9 50%,
-    #ffd6ba 70%,
-    #bee3db 100%
-  );
-  --color-schema4-dark: #bee3db;
-  --color-schema4-med: #ffd6ba;
-  --color-schema4-light: #faf9f9;
+  --gradient4: conic-gradient(#6D6875 0%,
+      #E5989B 30%,
+      #FFCDB2 50%,
+      #E5989B 70%,
+      #6D6875 100%);
+  --color-schema4-dark: #6D6875;
+  --color-schema4-med: #E5989B;
+  --color-schema4-light: #FFCDB2;
 }
 
 * {

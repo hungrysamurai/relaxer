@@ -3,16 +3,19 @@ const container = document.getElementById("container");
 const text = document.getElementById("text");
 let soundButton = document.querySelector(".soundbutton"),
   audio = document.querySelector(".audio");
-const colorControlsContainer = document.querySelector('.color-controls-container');
-
+const colorControlsContainer = document.querySelector(
+  ".color-controls-container"
+);
+const innerCircle = document.querySelector(".circle");
+const outerCircle = document.querySelector(".gradient-circle");
+const pointer = document.querySelector(".pointer");
 
 // Get current colorScheme from localStorage, if not found - default to 0
-if (!localStorage.getItem('relaxer-colorScheme')) {
-  localStorage.setItem('relaxer-colorScheme', 0)
-};
+if (!localStorage.getItem("relaxer-colorSchema")) {
+  localStorage.setItem("relaxer-colorSchema", 0);
+}
 
-let currentColorSchema = +localStorage.getItem('relaxer-colorScheme');
-
+let currentColorSchema = +localStorage.getItem("relaxer-colorSchema");
 
 // Time data
 const totalTime = 9500;
@@ -23,25 +26,25 @@ const holdTime = totalTime / 5;
 const gradients = [
   [
     ["#231942", "#E0B1CB"],
-    ["#E0B1CB", "#231942"]
+    ["#E0B1CB", "#231942"],
   ],
   [
     ["#023E8A", "#ADE8F4"],
-    ["#ADE8F4", "#023E8A"]
+    ["#ADE8F4", "#023E8A"],
   ],
   [
     ["#233B3F", "#E2BF83"],
-    ["#E2BF83", "#233B3F"]
+    ["#E2BF83", "#233B3F"],
   ],
   [
     ["#28102B", "#4E313D"],
-    ["#4E313D", "#28102B"]
+    ["#4E313D", "#28102B"],
   ],
   [
     ["#BEE3DB", "#FAF9F9"],
-    ["#FAF9F9", "#BEE3DB"]
+    ["#FAF9F9", "#BEE3DB"],
   ],
-]
+];
 
 // Animation
 function breathAnimation() {
@@ -60,61 +63,58 @@ function breathAnimation() {
 
 // Switch Color Schema
 function setColorSchema(schema) {
-  colorSwitcher(schema);
+  // Clean container
+  colorControlsContainer.innerHTML = "";
 
-  // Gradient Background
+  // Update Container
+  updateColorSwitcher(schema);
+
+  // Update styles in DOM
+  innerCircle.style.animationName = `change-bg-${schema}`;
+  outerCircle.style.background = `var(--gradient${schema})`;
+  pointer.style.animationName = `change-bg-${schema}`;
+
+  // New gradient background
   let granimBG = new Granim({
     element: "#granim-canvas",
     direction: "radial",
     opacity: [1, 1],
     states: {
       "default-state": {
-        gradients: [
-          gradients[schema][0],
-          gradients[schema][1],
-        ],
+        gradients: [gradients[schema][0], gradients[schema][1]],
         transitionSpeed: totalTime / 2,
       },
     },
   });
 }
 
-
 // Color switcher container - populate
-function colorSwitcher(schema) {
-  console.log(schema);
+function updateColorSwitcher(schema) {
   gradients.forEach((el, i) => {
-    let element = document.createElement('div');
-    element.classList.add('color-scheme');
-    console.log(schema, i);
+    let element = document.createElement("div");
+    element.classList.add("color-scheme");
+
     if (i === schema) {
-      element.classList.add('active');
+      element.classList.add("active");
     } else {
-      element.addEventListener('click', (e) => {
-        colorControlsContainer.innerHTML = ''
-        setColorSchema(+e.target.dataset.color);
-      })
+      element.addEventListener("click", (e) => {
+        const newSchema = +e.target.dataset.color;
+        localStorage.setItem("relaxer-colorSchema", newSchema);
+        setColorSchema(newSchema);
+      });
     }
 
-    element.setAttribute('data-color', i);
+    element.setAttribute("data-color", i);
     element.style.background = `var(--gradient${i})`;
 
     colorControlsContainer.appendChild(element);
-
-
   });
+}
 
-
-
-};
-
-colorControlsContainer.addEventListener('click', (e) => {
-  colorControlsContainer.classList.toggle('folded');
-
+// Toggle color changer container
+colorControlsContainer.addEventListener("click", (e) => {
+  colorControlsContainer.classList.toggle("folded");
 });
-
-
-
 
 // Audio
 soundButton.addEventListener("click", (e) => {
@@ -129,8 +129,10 @@ window.onfocus = function () {
 window.onblur = function () {
   audio.pause();
 };
-// Init
+
+// Init color schema
 setColorSchema(currentColorSchema);
 
+// Init animations
 breathAnimation();
 setInterval(breathAnimation, totalTime);

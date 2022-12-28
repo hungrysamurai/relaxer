@@ -180,14 +180,19 @@ body {
 
 .color-controls-container.folded .color-scheme {
   position: absolute;
+  display: none;
+}
+
+.color-controls-container.folded .color-scheme.active {
+  display: block;
 }
 
 .color-controls-container .color-scheme {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: var(--gradient0);
   transition: all 0.2s ease;
+  display: block;
 }
 
 /* Animations */

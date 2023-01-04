@@ -139,12 +139,23 @@ body {
   bottom: 5vh;
   right: 7vw;
   cursor: pointer;
-  width: 24px;
+  width: 36px;
+  height: 36px;
   transition: 0.25s ease;
+  background-color: #fff;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .soundbutton.paused {
   opacity: 0.5;
+}
+
+.soundbutton img {
+  width: 70%;
+  height: 70%;
 }
 
 /* Color controlls */

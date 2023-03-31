@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/style.css" />
+    <title>Relaxer</title>
+  </head>
+
+  <body>
+    <canvas id="granim-canvas"></canvas>
+
+    <div id="circle-container">
+      <div id="inner-circle">
+        <p id="text"></p>
+      </div>
+
+      <div id="outer-circle"></div>
+
+      <div id="pointer-container">
+        <span id="pointer"></span>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="soundbutton paused">
+        <img src="./dist/img/sound.gif" alt="Alt" />
+      </div>
+
+      <div class="animation-controls">
+        <button id="animation-control-btn">Play/pause</button>
+      </div>
+      <audio class="audio" src="./dist/sound/meditative-rain.mp3" loop></audio>
+
+      <div class="color-controls-container folded"></div>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/granim/2.0.0/granim.min.js"
+      integrity="sha512-CmlPTWm5+a1Gt2YSNk2rGZVvbH3Zge6imS7M4/vrhC8d+A1RcehmLxWMqUdv8aEu7pwfTo74EtnrR+8Cf8KdCA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
+      integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script src="./src/script.js"></script>
+  </body>
+</html>

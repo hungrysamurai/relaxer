@@ -183,6 +183,7 @@ body {
   align-items: center;
   justify-content: space-evenly;
   box-shadow: 0.1rem 0.1rem 24px 4px rgba(0, 0, 0, 0.2);
+  z-index: 3;
 }
 
 .color-controls-container.folded {

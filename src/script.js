@@ -1,3 +1,5 @@
+const Granim = require("granim");
+var gsap = require("gsap/dist/gsap").gsap;
 // DOM elements
 const animationControlBtn = document.querySelector("#animation-control-btn");
 
@@ -34,6 +36,13 @@ if (!localStorage.getItem("relaxer-mode")) {
 } else {
   currentMode = localStorage.getItem("relaxer-mode");
 }
+
+modeBtns.forEach((btn) => {
+  btn.classList.remove("active");
+  if (btn.dataset.mode === currentMode) {
+    btn.classList.add("active");
+  }
+});
 
 // Data
 

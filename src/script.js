@@ -2,21 +2,18 @@ const Granim = require("granim");
 var gsap = require("gsap/dist/gsap").gsap;
 // DOM elements
 const animationControlBtn = document.querySelector("#animation-control-btn");
-
 const circleContainer = document.getElementById("circle-container");
 const outerCircle = document.querySelector("#outer-circle");
 const innerCircle = document.querySelector("#inner-circle");
 const textEl = document.querySelector("#text");
-
 const pointerContainer = document.querySelector("#pointer-container");
 const pointer = document.querySelector("#pointer");
-
 const colorControlsContainer = document.querySelector(
   ".color-controls-container"
 );
 const modeBtns = document.querySelectorAll(".mode-btn");
-const soundButton = document.querySelector(".soundbutton"),
-  audio = document.querySelector(".audio");
+const soundButton = document.querySelector(".soundbutton");
+const audio = document.querySelector(".audio");
 const animationStateicon = animationControlBtn.querySelector("i");
 
 let currentColorSchema, currentMode, currentDuration, mainTimeLine, granimBG;

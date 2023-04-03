@@ -1,5 +1,8 @@
-const Granim = require("granim");
-var gsap = require("gsap/dist/gsap").gsap;
+// const Granim = require("granim");
+// var gsap = require("gsap/dist/gsap").gsap;
+import { gsap } from "gsap";
+import Granim from "granim";
+
 // DOM elements
 const animationControlBtn = document.querySelector("#animation-control-btn");
 const circleContainer = document.getElementById("circle-container");
@@ -79,7 +82,7 @@ const getKeyframes = (mode) => {
           "21%": {
             scale: 1.3,
           },
-          "47%": {
+          "58%": {
             scale: 1.3,
           },
           "100%": {
@@ -99,7 +102,7 @@ const getKeyframes = (mode) => {
               updateText("Держим");
             },
           },
-          "47%": {
+          "58%": {
             onComplete: () => {
               updateText("Выдох");
             },
@@ -114,7 +117,7 @@ const getKeyframes = (mode) => {
           "21%": {
             boxShadow: "0.1rem 0.1rem 86px 4px rgba(0, 0, 0, 0.5)",
           },
-          "47%": {
+          "58%": {
             boxShadow: "0.1rem 0.1rem 86px 4px rgba(0, 0, 0, 0.5)",
           },
           "100%": {
@@ -136,7 +139,7 @@ const getKeyframes = (mode) => {
             backgroundColor: gradients[currentColorSchema][0][1],
             ease: "Power1.easeIn",
           },
-          "47%": {
+          "58%": {
             scale: 0.95,
             backgroundColor: gradients[currentColorSchema][0][1],
             ease: "linear",
@@ -159,7 +162,7 @@ const getKeyframes = (mode) => {
             rotate: 76,
             ease: "Power1.easeIn",
           },
-          "47%": {
+          "58%": {
             rotate: 120,
             ease: "linear",
           },
@@ -178,7 +181,7 @@ const getKeyframes = (mode) => {
           "21%": {
             backgroundColor: gradients[currentColorSchema][0][0],
           },
-          "47%": {
+          "58%": {
             backgroundColor: gradients[currentColorSchema][0][0],
           },
           "100%": {

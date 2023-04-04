@@ -1,5 +1,3 @@
-// const Granim = require("granim");
-// var gsap = require("gsap/dist/gsap").gsap;
 import { gsap } from "gsap";
 import Granim from "granim";
 

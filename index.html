@@ -1,56 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="./node_modules/@fortawesome/fontawesome-free/css/all.css"
+    />
+    <link rel="stylesheet" href="./src/style.css" />
+    <title>Relaxer</title>
+  </head>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <link rel="stylesheet" href="./src/style.css" />
-  <title>Relaxer</title>
-</head>
-
-<body>
-  <div id="top-container">
-    <button class="mode-btn active" data-mode="4-7-8">4-7-8</button>
-    <button class="mode-btn" data-mode="4-4-4-4">4-4-4-4</button>
-  </div>
-
-  <canvas id="granim-canvas"></canvas>
-
-  <div id="circle-container">
-    <div id="inner-circle"></div>
-
-    <div id="outer-circle"></div>
-
-    <div id="pointer-container">
-      <span id="pointer"></span>
+  <body>
+    <div id="top-container">
+      <button class="mode-btn active" data-mode="4-7-8">4-7-8</button>
+      <button class="mode-btn" data-mode="4-4-4-4">4-4-4-4</button>
     </div>
 
-    <p id="text"></p>
-  </div>
+    <canvas id="granim-canvas"></canvas>
 
-  <div class="footer">
+    <div id="circle-container">
+      <div id="inner-circle"></div>
 
-    <div class="color-controls-container folded"></div>
+      <div id="outer-circle"></div>
 
-    <div class="animation-controls">
-      <button id="animation-control-btn">
-        <i class="fa-solid fa-play"></i>
-      </button>
+      <div id="pointer-container">
+        <span id="pointer"></span>
+      </div>
+
+      <p id="text"></p>
     </div>
 
-    <div class="soundbutton paused">
-      <img src="./src/assets/sound.gif" alt="Alt" />
+    <div class="footer">
+      <div class="color-controls-container folded"></div>
+
+      <div class="animation-controls">
+        <button id="animation-control-btn">
+          <i class="fa-solid fa-play"></i>
+        </button>
+      </div>
+
+      <div class="soundbutton paused">
+        <img src="./src/assets/sound.gif" alt="Alt" />
+      </div>
+      <audio class="audio" src="./src/assets/meditative-rain.mp3" loop></audio>
     </div>
-    <audio class="audio" src="./src/assets/meditative-rain.mp3" loop></audio>
-  </div>
 
-  <script type="module" src="./src/script.js"></script>
-</body>
-
+    <script type="module" src="./src/script.js"></script>
+  </body>
 </html>

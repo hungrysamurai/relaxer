@@ -1,9 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Exo+2&display=swap");
 
 :root {
-  --grow1: 3800ms;
-  --shrink1: 3800ms;
-  --total-time1: 9.5s;
   /* Color schema 0 */
   --gradient0: conic-gradient(#231942 0%,
       #5e548e 30%,

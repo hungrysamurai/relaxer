@@ -1,6 +1,9 @@
 import { gsap } from "gsap";
 import Granim from "granim";
 
+import Keyframes from "./Keyframes";
+import gradients from "./gradients";
+
 // DOM elements
 const animationControlBtn = document.querySelector("#animation-control-btn");
 const circleContainer = document.getElementById("circle-container");
@@ -17,7 +20,30 @@ const soundButton = document.querySelector(".soundbutton");
 const audio = document.querySelector(".audio");
 const animationStateicon = animationControlBtn.querySelector("i");
 
-let currentColorSchema, currentMode, currentDuration, mainTimeLine, granimBG;
+/**
+ * @type {number}
+ */
+let currentColorSchema;
+
+/**
+ * @type {string}
+ */
+let currentMode;
+
+/**
+ * @type {number}
+ */
+let currentDuration;
+
+/**
+ * @type {Object}
+ */
+let mainTimeLine;
+
+/**
+ * @type {Object}
+ */
+let granimBG;
 
 // Get current colorScheme from localStorage, if not found - default to 0
 if (!localStorage.getItem("relaxer-colorSchema")) {
@@ -35,6 +61,7 @@ if (!localStorage.getItem("relaxer-mode")) {
   currentMode = localStorage.getItem("relaxer-mode");
 }
 
+// Set mode button to active
 modeBtns.forEach((btn) => {
   btn.classList.remove("active");
   if (btn.dataset.mode === currentMode) {
@@ -42,303 +69,44 @@ modeBtns.forEach((btn) => {
   }
 });
 
-// Data
+/**
+ * @property {Function} init - Init/ re-init animation & color schema
+ * @returns {void}
+ */
+function init() {
+  animationStateicon.className = "fa-solid fa-play";
+  currentDuration = getTotalDuration(currentMode);
+  setColorSchema(+currentColorSchema);
+  setAnimation();
+}
 
-// Gradients sets
-const gradients = [
-  [
-    ["#231942", "#E0B1CB"],
-    ["#E0B1CB", "#231942"],
-  ],
-  [
-    ["#023E8A", "#ADE8F4"],
-    ["#ADE8F4", "#023E8A"],
-  ],
-  [
-    ["#233B3F", "#E2BF83"],
-    ["#E2BF83", "#233B3F"],
-  ],
-  [
-    ["#28102B", "#4E313D"],
-    ["#4E313D", "#28102B"],
-  ],
-  [
-    ["#6D6875", "#FFCDB2"],
-    ["#FFCDB2", "#6D6875"],
-  ],
-];
+/**
+ * @property {Function} getTotalDuration - set currentColorSchema value, init new Granim object for background with new values
+ * @param {string} modeString - string that represents mode
+ * @returns {number} - total time of cycle in seconds
+ *
+ *  * @example
+ *
+ *     getTotalDuration('4-4-4-4')
+ */
+function getTotalDuration(modeString) {
+  return modeString
+    .split("-")
+    .map((n) => parseInt(n))
+    .reduce((a, c) => a + c);
+}
 
-//Keyframes sets
-const getKeyframes = (mode) => {
-  if (mode === "4-7-8") {
-    return {
-      circleContainer: {
-        keyframes: {
-          "0%": {
-            scale: 1,
-          },
-          "21%": {
-            scale: 1.3,
-          },
-          "58%": {
-            scale: 1.3,
-          },
-          "100%": {
-            scale: 1,
-          },
-        },
-      },
-      textEl: {
-        keyframes: {
-          "0%": {
-            onComplete: () => {
-              updateText("Вдох");
-            },
-          },
-          "21%": {
-            onComplete: () => {
-              updateText("Держим");
-            },
-          },
-          "58%": {
-            onComplete: () => {
-              updateText("Выдох");
-            },
-          },
-        },
-      },
-      outerCircle: {
-        keyframes: {
-          "0%": {
-            boxShadow: "0rem 0rem 1px rgba(0, 0, 0, 0.1)",
-          },
-          "21%": {
-            boxShadow: "0.1rem 0.1rem 86px 4px rgba(0, 0, 0, 0.5)",
-          },
-          "58%": {
-            boxShadow: "0.1rem 0.1rem 86px 4px rgba(0, 0, 0, 0.5)",
-          },
-          "100%": {
-            boxShadow: "0rem 0rem 1px rgba(0, 0, 0, 0.7)",
-          },
-          ease: "linear",
-        },
-      },
-
-      innerCircle: {
-        keyframes: {
-          "0%": {
-            scale: 0.75,
-            backgroundColor: gradients[currentColorSchema][0][0],
-            ease: "linear",
-          },
-          "21%": {
-            scale: 0.9,
-            backgroundColor: gradients[currentColorSchema][0][1],
-            ease: "Power1.easeIn",
-          },
-          "58%": {
-            scale: 0.95,
-            backgroundColor: gradients[currentColorSchema][0][1],
-            ease: "linear",
-          },
-          "100%": {
-            scale: 0.75,
-            backgroundColor: gradients[currentColorSchema][0][0],
-            ease: "Power1.easeIn",
-          },
-        },
-      },
-
-      pointerContainer: {
-        keyframes: {
-          "0%": {
-            rotate: 0,
-            ease: "linear",
-          },
-          "21%": {
-            rotate: 76,
-            ease: "Power1.easeIn",
-          },
-          "58%": {
-            rotate: 120,
-            ease: "linear",
-          },
-          "100%": {
-            rotate: 360,
-            ease: "Power1.easeIn",
-          },
-        },
-      },
-
-      pointer: {
-        keyframes: {
-          "0%": {
-            backgroundColor: gradients[currentColorSchema][0][1],
-          },
-          "21%": {
-            backgroundColor: gradients[currentColorSchema][0][0],
-          },
-          "58%": {
-            backgroundColor: gradients[currentColorSchema][0][0],
-          },
-          "100%": {
-            backgroundColor: gradients[currentColorSchema][0][1],
-          },
-        },
-      },
-    };
-  } else if (mode === "4-4-4-4") {
-    return {
-      circleContainer: {
-        keyframes: {
-          "0%": {
-            scale: 1,
-          },
-          "25%": {
-            scale: 1.3,
-          },
-          "50%": {
-            scale: 1.3,
-          },
-          "75%": {
-            scale: 1,
-          },
-          "100%": {
-            scale: 1,
-          },
-        },
-      },
-      textEl: {
-        keyframes: {
-          "0%": {
-            onComplete: () => {
-              updateText("Вдох");
-            },
-          },
-          "25%": {
-            onComplete: () => {
-              updateText("Держим");
-            },
-          },
-          "50%": {
-            onComplete: () => {
-              updateText("Выдох");
-            },
-          },
-          "75%": {
-            onComplete: () => {
-              updateText("Держим");
-            },
-          },
-        },
-      },
-      outerCircle: {
-        keyframes: {
-          "0%": {
-            boxShadow: "0rem 0rem 1px rgba(0, 0, 0, 0.1)",
-          },
-          "25%": {
-            boxShadow: "0.1rem 0.1rem 86px 4px rgba(0, 0, 0, 0.5)",
-          },
-          "50%": {
-            boxShadow: "0.1rem 0.1rem 86px 4px rgba(0, 0, 0, 0.5)",
-          },
-          "75%": {
-            boxShadow: "0rem 0rem 1px rgba(0, 0, 0, 0.1)",
-          },
-          "100%": {
-            boxShadow: "0rem 0rem 1px rgba(0, 0, 0, 0.1)",
-          },
-          ease: "linear",
-        },
-      },
-
-      innerCircle: {
-        keyframes: {
-          "0%": {
-            scale: 0.75,
-            backgroundColor: gradients[currentColorSchema][0][0],
-            ease: "linear",
-          },
-          "25%": {
-            scale: 0.9,
-            backgroundColor: gradients[currentColorSchema][0][1],
-            ease: "Power1.easeIn",
-          },
-          "50%": {
-            scale: 0.95,
-            backgroundColor: gradients[currentColorSchema][0][1],
-            ease: "linear",
-          },
-          "75%": {
-            scale: 0.75,
-            backgroundColor: gradients[currentColorSchema][0][0],
-            ease: "Power1.easeIn",
-          },
-          "100%": {
-            scale: 0.75,
-            backgroundColor: gradients[currentColorSchema][0][0],
-            ease: "Power1.easeIn",
-          },
-        },
-      },
-
-      pointerContainer: {
-        keyframes: {
-          "0%": {
-            rotate: 0,
-            ease: "linear",
-          },
-          "25%": {
-            rotate: 90,
-            ease: "Power1.easeIn",
-          },
-          "50%": {
-            rotate: 180,
-            ease: "linear",
-          },
-          "75%": {
-            rotate: 270,
-            ease: "linear",
-          },
-          "100%": {
-            rotate: 360,
-            ease: "Power1.easeIn",
-          },
-        },
-      },
-
-      pointer: {
-        keyframes: {
-          "0%": {
-            backgroundColor: gradients[currentColorSchema][0][1],
-          },
-          "25%": {
-            backgroundColor: gradients[currentColorSchema][0][0],
-          },
-          "50%": {
-            backgroundColor: gradients[currentColorSchema][0][0],
-          },
-          "75%": {
-            backgroundColor: gradients[currentColorSchema][0][1],
-          },
-          "100%": {
-            backgroundColor: gradients[currentColorSchema][0][1],
-          },
-        },
-      },
-    };
-  }
-};
-
+/**
+ * @property {Function} setColorSchema - set currentColorSchema value, init new Granim object for background with new values
+ * @param {number} schema - numeric value represents color schema
+ * @returns {void}
+ */
 function setColorSchema(schema) {
   // Clean container
   colorControlsContainer.innerHTML = "";
 
   // Update Container
   updateColorSwitcher(schema);
-
   outerCircle.style.background = `var(--gradient${schema})`;
 
   // New gradient background
@@ -357,11 +125,14 @@ function setColorSchema(schema) {
   });
 
   granimBG.pause();
-
   currentColorSchema = schema;
 }
 
-// Color switcher container - populate
+/**
+ * @property {Function} updateColorSwitcher - populate color switcher container
+ * @param {number} schema - numeric value represents active color schema
+ * @returns {void}
+ */
 function updateColorSwitcher(schema) {
   gradients.forEach((el, i) => {
     let element = document.createElement("div");
@@ -374,7 +145,7 @@ function updateColorSwitcher(schema) {
         const newSchema = +e.target.dataset.color;
         localStorage.setItem("relaxer-colorSchema", newSchema);
         currentColorSchema = newSchema;
-
+        // Re-init UI
         init();
       });
     }
@@ -386,17 +157,34 @@ function updateColorSwitcher(schema) {
   });
 }
 
+/**
+ * @property {Function} setAnimation- sets innerCircle and pointer elements to current color schema colors, init getAnimation function with new Keyframes object with current colors and mode
+ * @returns {void}
+ */
 function setAnimation() {
   // Default some elements
   gsap.set(innerCircle, {
     backgroundColor: gradients[currentColorSchema][0][0],
     scale: 0.75,
   });
+
   gsap.set(pointer, { backgroundColor: gradients[currentColorSchema][0][1] });
 
-  getAnimation(getKeyframes(currentMode));
+  getAnimation(
+    new Keyframes(
+      currentMode,
+      gradients[currentColorSchema],
+      currentDuration,
+      updateText
+    )
+  );
 }
 
+/**
+ * @property {Function} getAnimation - generates animation with current colors and mode
+ * @param {Object} options - Keyframes object, instance of Keyframes class
+ * @returns {void}
+ */
 function getAnimation(options) {
   if (mainTimeLine) {
     // Reset all animations
@@ -443,16 +231,16 @@ function getAnimation(options) {
   mainTimeLine.to(pointer, options.pointer, "<");
 }
 
+/**
+ * @property {Function} updateText - set textContent of textEl to @param
+ * @param {string}
+ * @returns {void}
+ */
 function updateText(string) {
   textEl.textContent = string;
 }
 
-function getTotalDuration(string) {
-  return string
-    .split("-")
-    .map((n) => parseInt(n))
-    .reduce((a, c) => a + c);
-}
+// Events listeners
 
 // Mode buttons
 modeBtns.forEach((btn) => {
@@ -476,7 +264,6 @@ colorControlsContainer.addEventListener("click", (e) => {
 });
 
 // Play/pause button
-
 animationControlBtn.addEventListener("click", () => {
   if (animationStateicon.classList.contains("fa-play")) {
     animationStateicon.classList.remove("fa-play");
@@ -510,14 +297,5 @@ window.onblur = function () {
   audio.pause();
 };
 
-// Init/ re-init animation & color schema
-function init() {
-  animationStateicon.className = "fa-solid fa-play";
-  currentDuration = getTotalDuration(currentMode);
-
-  setColorSchema(+currentColorSchema);
-
-  setAnimation();
-}
-
+// Everything starts here
 init();

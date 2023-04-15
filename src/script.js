@@ -81,13 +81,11 @@ function init() {
 }
 
 /**
- * @property {Function} getTotalDuration - set currentColorSchema value, init new Granim object for background with new values
+ * @property {Function} getTotalDuration - calculate total duration of animation
  * @param {string} modeString - string that represents mode
  * @returns {number} - total time of cycle in seconds
  *
- *  * @example
- *
- *     getTotalDuration('4-4-4-4')
+ * @example getTotalDuration('4-4-4-4')
  */
 function getTotalDuration(modeString) {
   return modeString
@@ -158,7 +156,7 @@ function updateColorSwitcher(schema) {
 }
 
 /**
- * @property {Function} setAnimation- sets innerCircle and pointer elements to current color schema colors, init getAnimation function with new Keyframes object with current colors and mode
+ * @property {Function} setAnimation - sets innerCircle and pointer elements to current color schema colors, init getAnimation function with new Keyframes object with current colors and mode
  * @returns {void}
  */
 function setAnimation() {

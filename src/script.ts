@@ -5,17 +5,25 @@ import Keyframes from "./Keyframes";
 import gradients from "./gradients";
 
 // DOM elements
-const animationControlBtn = document.querySelector("#animation-control-btn") as HTMLButtonElement;
-const circleContainer = document.getElementById("circle-container") as HTMLDivElement;
+const animationControlBtn = document.querySelector(
+  "#animation-control-btn",
+) as HTMLButtonElement;
+const circleContainer = document.getElementById(
+  "circle-container",
+) as HTMLDivElement;
 const outerCircle = document.querySelector("#outer-circle") as HTMLDivElement;
 const innerCircle = document.querySelector("#inner-circle") as HTMLDivElement;
 const textEl = document.querySelector("#text") as HTMLParagraphElement;
-const pointerContainer = document.querySelector("#pointer-container") as HTMLDivElement;
+const pointerContainer = document.querySelector(
+  "#pointer-container",
+) as HTMLDivElement;
 const pointer = document.querySelector("#pointer") as HTMLSpanElement;
 const colorControlsContainer = document.querySelector(
-  ".color-controls-container"
+  ".color-controls-container",
 ) as HTMLDivElement;
-const modeBtns = document.querySelectorAll(".mode-btn") as NodeListOf<HTMLDivElement>
+const modeBtns = document.querySelectorAll(
+  ".mode-btn",
+) as NodeListOf<HTMLDivElement>;
 const soundButton = document.querySelector(".soundbutton") as HTMLDivElement;
 const audio = document.querySelector(".audio") as HTMLAudioElement;
 const animationStateicon = animationControlBtn.querySelector("i") as Element;
@@ -25,11 +33,11 @@ let currentMode: string;
 let currentDuration: number;
 
 let mainTimeLine: gsap.core.Timeline | undefined;
-let granimBG: Granim | undefined
+let granimBG: Granim | undefined;
 
 // Get current colorScheme from localStorage, if not found - default to 0
 if (!localStorage.getItem("relaxer-colorSchema")) {
-  localStorage.setItem("relaxer-colorSchema", '0');
+  localStorage.setItem("relaxer-colorSchema", "0");
   currentColorSchema = 0;
 } else {
   currentColorSchema = Number(localStorage.getItem("relaxer-colorSchema"));
@@ -56,7 +64,7 @@ modeBtns.forEach((btn) => {
  */
 function init(): void {
   animationStateicon.className = "fa-solid fa-play";
-  currentDuration = getTotalDuration(currentMode || '4-7-8');
+  currentDuration = getTotalDuration(currentMode || "4-7-8");
   setColorSchema(Number(currentColorSchema));
   setAnimation();
 }
@@ -146,15 +154,17 @@ function setAnimation(): void {
     scale: 0.75,
   });
 
-  gsap.set(pointer, { backgroundColor: gradients[Number(currentColorSchema)][0][1] });
+  gsap.set(pointer, {
+    backgroundColor: gradients[Number(currentColorSchema)][0][1],
+  });
 
   getAnimation(
     new Keyframes(
       currentMode,
       gradients[Number(currentColorSchema)],
       currentDuration,
-      updateText
-    )
+      updateText,
+    ),
   );
 }
 
@@ -163,7 +173,6 @@ function setAnimation(): void {
  * @param {Object} options - Keyframes object, instance of Keyframes class
  */
 function getAnimation(options: Keyframes): void {
-
   if (mainTimeLine) {
     // Reset all animations
     mainTimeLine.kill();
@@ -276,7 +285,6 @@ window.onblur = function () {
 };
 
 // Everything starts here
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener("DOMContentLoaded", () => {
   init();
-})
-
+});

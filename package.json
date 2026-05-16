@@ -24,9 +24,9 @@
   },
   "homepage": "https://github.com/hungrysamurai/relaxer#readme",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.4.0",
+    "@fortawesome/fontawesome-free": "^6.7.2",
     "granim": "^2.0.0",
-    "gsap": "^3.11.5"
+    "gsap": "^3.15.0"
   },
   "targets": {
     "default": {
@@ -34,8 +34,8 @@
     }
   },
   "devDependencies": {
-    "@types/granim": "^2.0.2",
-    "parcel": "^2.12.0",
-    "typescript": "^5.2.2"
+    "@types/granim": "^2.0.4",
+    "parcel": "^2.16.4",
+    "typescript": "^5.9.3"
   }
 }

@@ -1,5 +1,5 @@
 interface IKeyframes {
-  [key: string]: gsap.AnimationVars
+  [key: string]: gsap.AnimationVars;
 }
 
 import { BgColorPair } from "./gradients";
@@ -30,7 +30,7 @@ export default class Keyframes {
     private mode: string,
     currentGradientsSet: BgColorPair,
     private totalDuration: number,
-    private textCallback: Function
+    private textCallback: Function,
   ) {
     this.BGColors = currentGradientsSet[0];
 
@@ -38,22 +38,23 @@ export default class Keyframes {
     this.keyframesPositions = this.generatePositions();
 
     // Get keyframes objects for each element
+
     this.circleContainer = this.getCircleContainerKeyframes(1, 1.3);
     this.textEl = this.getTextElKeyframes();
     this.outerCircle = this.getOuterCircleKeyframes(
       "0rem 0rem 1px rgba(0, 0, 0, 0.1)",
-      "0.1rem 0.1rem 86px 4px rgba(0, 0, 0, 0.7)"
+      "0.1rem 0.1rem 86px 4px rgba(0, 0, 0, 0.7)",
     );
     this.innerCircle = this.getInnerCircleKeyframes(
       0.75,
       0.9,
       0.95,
       "linear",
-      "Power1.easeIn"
+      "Power1.easeIn",
     );
     this.pointerContainer = this.getPointerContainerKeyframes(
       "linear",
-      "Power1.easeIn"
+      "Power1.easeIn",
     );
     this.pointer = this.getPointerKeyframes();
   }
@@ -110,15 +111,15 @@ export default class Keyframes {
         onComplete:
           i === 0
             ? () => {
-              this.textCallback("Вдох");
-            }
+                this.textCallback("Вдох");
+              }
             : i % 2 === 0
               ? () => {
-                this.textCallback("Выдох");
-              }
+                  this.textCallback("Выдох");
+                }
               : () => {
-                this.textCallback("Держим");
-              },
+                  this.textCallback("Держим");
+                },
       };
     }
 
@@ -154,16 +155,20 @@ export default class Keyframes {
    * @param {string} easeMin - easing value
    * @param {string} easeMax - easing value
    */
-  getInnerCircleKeyframes(scale1: number, scale2: number, scale3: number, easeMin: string, easeMax: string): Object {
+  getInnerCircleKeyframes(
+    scale1: number,
+    scale2: number,
+    scale3: number,
+    easeMin: string,
+    easeMax: string,
+  ): Object {
     const keyframes: IKeyframes = {};
 
     for (let i = 0; i < this.keyframesPositions.length; i++) {
       keyframes[this.keyframesPositions[i]] = {
         scale: i === 1 ? scale2 : i === 2 ? scale3 : scale1,
         backgroundColor:
-          i === 1 || i === 2
-            ? this.BGColors[1]
-            : this.BGColors[0],
+          i === 1 || i === 2 ? this.BGColors[1] : this.BGColors[0],
         ease: i === 0 || i === 2 ? easeMin : easeMax,
       };
     }
@@ -214,9 +219,7 @@ export default class Keyframes {
     for (let i = 0; i < this.keyframesPositions.length; i++) {
       keyframes[this.keyframesPositions[i]] = {
         backgroundColor:
-          i === 1 || i === 2
-            ? this.BGColors[0]
-            : this.BGColors[1],
+          i === 1 || i === 2 ? this.BGColors[0] : this.BGColors[1],
       };
     }
 

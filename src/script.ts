@@ -28,6 +28,15 @@ const soundButton = document.querySelector(".soundbutton") as HTMLDivElement;
 const audio = document.querySelector(".audio") as HTMLAudioElement;
 const animationStateicon = animationControlBtn.querySelector("i") as Element;
 
+// Custom modes overlay
+const customModesOverlayOpenBtn = document.querySelector(
+  ".custom-mode-overlay-open-btn",
+);
+const customModesOverlayCloseBtn = document.querySelector(
+  ".custom-mode-overlay-close-btn",
+);
+const customModesOverlay = document.querySelector(".custom-mode-overlay");
+
 let currentColorSchema: number | null;
 let currentMode: string;
 let currentDuration: number;
@@ -67,6 +76,7 @@ function init(): void {
   currentDuration = getTotalDuration(currentMode || "4-7-8");
   setColorSchema(Number(currentColorSchema));
   setAnimation();
+  setOverlay();
 }
 
 /**
@@ -168,6 +178,12 @@ function setAnimation(): void {
   );
 }
 
+function setOverlay() {
+  gsap.set(customModesOverlay, {
+    x: "100%",
+  });
+}
+
 /**
  * @property {Function} getAnimation - generates animation with current colors and mode
  * @param {Object} options - Keyframes object, instance of Keyframes class
@@ -242,6 +258,23 @@ modeBtns.forEach((btn) => {
 
       init();
     }
+  });
+});
+
+// Custom modes overlay
+customModesOverlayOpenBtn?.addEventListener("click", () => {
+  gsap.to(customModesOverlay, {
+    x: 0,
+    duration: 0.2,
+    ease: "Power4.in",
+  });
+});
+
+customModesOverlayCloseBtn?.addEventListener("click", () => {
+  gsap.to(customModesOverlay, {
+    x: "100%",
+    duration: 0.2,
+    ease: "Power4.out",
   });
 });
 

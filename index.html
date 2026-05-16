@@ -12,9 +12,22 @@
 </head>
 
 <body>
+  <div class="custom-mode-overlay">
+    <button class="custom-mode-overlay-close-btn">
+      <i class="fa-solid fa-times"></i>
+    </button>
+  </div>
+
   <div id="top-container">
-    <button class="mode-btn active" data-mode="4-7-8">4-7-8</button>
-    <button class="mode-btn" data-mode="4-4-4-4">4-4-4-4</button>
+    <div class="mode-buttons">
+      <button class="mode-btn active" data-mode="4-7-8">4-7-8</button>
+      <button class="mode-btn" data-mode="4-4-4-4">4-4-4-4</button>
+      <button class="mode-btn" data-mode="4-4-4-4">4-4-4-4-4-4-4-4-4-4-4-4</button>
+    </div>
+
+    <button class="custom-mode-overlay-open-btn">
+      <i class="fa-solid fa-plus"></i>
+    </button>
   </div>
 
   <canvas id="granim-canvas"></canvas>

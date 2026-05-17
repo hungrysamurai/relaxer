@@ -37,12 +37,15 @@ const customModesOverlayCloseBtn = document.querySelector(
 );
 const customModesOverlay = document.querySelector(".custom-mode-overlay");
 
+// Globals
 let currentColorSchema: number | null;
 let currentMode: string;
 let currentDuration: number;
 
 let mainTimeLine: gsap.core.Timeline | undefined;
 let granimBG: Granim | undefined;
+
+let customMode: string | null;
 
 // Get current colorScheme from localStorage, if not found - default to 0
 if (!localStorage.getItem("relaxer-colorSchema")) {
@@ -225,6 +228,7 @@ function getAnimation(options: Keyframes): void {
     paused: true,
     defaults: { duration: currentDuration },
   });
+  console.log(options);
 
   mainTimeLine.to(circleContainer, options.circleContainer);
   mainTimeLine.to(textEl, options.textEl, "<");

@@ -224,8 +224,12 @@ export default class Keyframes {
     const rotations = [0];
 
     for (let i = 1; i < this.timeline.length; i++) {
-      const degrees = Math.round((360 / 100) * this.timeline[i].percent);
-      rotations.push(degrees);
+      if (i === this.timeline.length - 1) {
+        rotations.push(360);
+      } else {
+        const degrees = Math.round((360 / 100) * this.timeline[i].percent);
+        rotations.push(degrees);
+      }
     }
 
     return rotations;

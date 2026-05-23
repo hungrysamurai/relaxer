@@ -14,58 +14,38 @@ import {
   pointer,
   colorControlsContainer,
   modeBtns,
+  customModeBtn,
   soundButton,
   audio,
-  animationStateicon,
+  animationStateIcon,
   customModesOverlayOpenBtn,
   customModesOverlayCloseBtn,
   customModesOverlay,
 } from "./DOMElements";
 
-import getInitialSchemaAndMode from "./getInitial";
+import getInitialSchemaAndMode from "./utils/getInitials";
+import initModeBtns from "./utils/initModeBtns";
+import getTotalDuration from "./utils/getTotalDuration";
+import animationStateIconToggle from "./utils/animationStateIconToggle";
 
 // Globals
-
-let { currentColorSchema, currentMode } = getInitialSchemaAndMode();
+let { currentColorSchema, currentMode, customMode } = getInitialSchemaAndMode();
 
 let currentDuration: number;
 
 let mainTimeLine: gsap.core.Timeline | undefined;
 let granimBG: Granim | undefined;
 
-let customMode: string | null;
-
-// Set mode button to active
-modeBtns.forEach((btn) => {
-  btn.classList.remove("active");
-  if (btn.dataset.mode === currentMode) {
-    btn.classList.add("active");
-  }
-});
-
 /**
  * @property {Function} init - Init/ re-init animation & color schema
  */
 function init(): void {
-  animationStateicon.className = "fa-solid fa-play";
+  animationStateIconToggle(animationStateIcon, true);
+
   currentDuration = getTotalDuration(currentMode || "4-7-8");
   setColorSchema(Number(currentColorSchema));
   setAnimation();
   setOverlay();
-}
-
-/**
- * @property {Function} getTotalDuration - calculate total duration of animation
- * @param {string} modeString - string that represents mode
- * @returns {number} - total time of cycle in seconds
- *
- * @example getTotalDuration('4-4-4-4')
- */
-function getTotalDuration(modeString: string): number {
-  return modeString
-    .split("-")
-    .map((n) => parseInt(n))
-    .reduce((a, c) => a + c);
 }
 
 /**
@@ -200,7 +180,6 @@ function getAnimation(options: Keyframes): void {
     paused: true,
     defaults: { duration: currentDuration },
   });
-  console.log(options);
 
   mainTimeLine.to(circleContainer, options.circleContainer);
   mainTimeLine.to(textEl, options.textEl, "<");
@@ -231,9 +210,8 @@ modeBtns.forEach((btn) => {
       currentDuration = getTotalDuration(mode);
       currentMode = mode;
       localStorage.setItem("relaxer-mode", mode);
-
-      init();
     }
+    init();
   });
 });
 
@@ -260,14 +238,8 @@ colorControlsContainer.addEventListener("click", (e) => {
 });
 
 // Play/pause button
-animationControlBtn.addEventListener("click", () => {
-  if (animationStateicon.classList.contains("fa-play")) {
-    animationStateicon.classList.remove("fa-play");
-    animationStateicon.classList.add("fa-pause");
-  } else {
-    animationStateicon.classList.remove("fa-pause");
-    animationStateicon.classList.add("fa-play");
-  }
+animationControlBtn.addEventListener("click", (e) => {
+  animationStateIconToggle(animationStateIcon);
   if (mainTimeLine) {
     if (mainTimeLine._ts) {
       mainTimeLine.pause();
@@ -295,5 +267,6 @@ window.onblur = function () {
 
 // Everything starts here
 window.addEventListener("DOMContentLoaded", () => {
+  initModeBtns(modeBtns, currentMode, customMode, customModeBtn);
   init();
 });

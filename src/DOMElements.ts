@@ -17,10 +17,13 @@ const colorControlsContainer = document.querySelector(
 ) as HTMLDivElement;
 const modeBtns = document.querySelectorAll(
   ".mode-btn",
-) as NodeListOf<HTMLDivElement>;
+) as NodeListOf<HTMLButtonElement>;
+const customModeBtn = document.querySelector(
+  ".mode-btn.custom-mode-btn",
+) as HTMLButtonElement;
 const soundButton = document.querySelector(".soundbutton") as HTMLDivElement;
 const audio = document.querySelector(".audio") as HTMLAudioElement;
-const animationStateicon = animationControlBtn.querySelector("i") as Element;
+const animationStateIcon = animationControlBtn.querySelector("i") as Element;
 
 // Custom modes overlay
 const customModesOverlayOpenBtn = document.querySelector(
@@ -41,9 +44,10 @@ export {
   pointer,
   colorControlsContainer,
   modeBtns,
+  customModeBtn,
   soundButton,
   audio,
-  animationStateicon,
+  animationStateIcon,
   customModesOverlayOpenBtn,
   customModesOverlayCloseBtn,
   customModesOverlay,

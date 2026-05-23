@@ -4,64 +4,36 @@ import Granim from "granim";
 import Keyframes from "./Keyframes";
 import gradients from "./gradients";
 
-// DOM elements
-const animationControlBtn = document.querySelector(
-  "#animation-control-btn",
-) as HTMLButtonElement;
-const circleContainer = document.getElementById(
-  "circle-container",
-) as HTMLDivElement;
-const outerCircle = document.querySelector("#outer-circle") as HTMLDivElement;
-const innerCircle = document.querySelector("#inner-circle") as HTMLDivElement;
-const textEl = document.querySelector("#text") as HTMLParagraphElement;
-const pointerContainer = document.querySelector(
-  "#pointer-container",
-) as HTMLDivElement;
-const pointer = document.querySelector("#pointer") as HTMLSpanElement;
-const colorControlsContainer = document.querySelector(
-  ".color-controls-container",
-) as HTMLDivElement;
-const modeBtns = document.querySelectorAll(
-  ".mode-btn",
-) as NodeListOf<HTMLDivElement>;
-const soundButton = document.querySelector(".soundbutton") as HTMLDivElement;
-const audio = document.querySelector(".audio") as HTMLAudioElement;
-const animationStateicon = animationControlBtn.querySelector("i") as Element;
+import {
+  animationControlBtn,
+  circleContainer,
+  outerCircle,
+  innerCircle,
+  textEl,
+  pointerContainer,
+  pointer,
+  colorControlsContainer,
+  modeBtns,
+  soundButton,
+  audio,
+  animationStateicon,
+  customModesOverlayOpenBtn,
+  customModesOverlayCloseBtn,
+  customModesOverlay,
+} from "./DOMElements";
 
-// Custom modes overlay
-const customModesOverlayOpenBtn = document.querySelector(
-  ".custom-mode-overlay-open-btn",
-);
-const customModesOverlayCloseBtn = document.querySelector(
-  ".custom-mode-overlay-close-btn",
-);
-const customModesOverlay = document.querySelector(".custom-mode-overlay");
+import getInitialSchemaAndMode from "./getInitial";
 
 // Globals
-let currentColorSchema: number | null;
-let currentMode: string;
+
+let { currentColorSchema, currentMode } = getInitialSchemaAndMode();
+
 let currentDuration: number;
 
 let mainTimeLine: gsap.core.Timeline | undefined;
 let granimBG: Granim | undefined;
 
 let customMode: string | null;
-
-// Get current colorScheme from localStorage, if not found - default to 0
-if (!localStorage.getItem("relaxer-colorSchema")) {
-  localStorage.setItem("relaxer-colorSchema", "0");
-  currentColorSchema = 0;
-} else {
-  currentColorSchema = Number(localStorage.getItem("relaxer-colorSchema"));
-}
-
-// Get current mode from localStorage, if noot found - default to 4-7-8
-if (!localStorage.getItem("relaxer-mode")) {
-  localStorage.setItem("relaxer-mode", "4-7-8");
-  currentMode = "4-7-8";
-} else {
-  currentMode = localStorage.getItem("relaxer-mode") || "4-7-8";
-}
 
 // Set mode button to active
 modeBtns.forEach((btn) => {

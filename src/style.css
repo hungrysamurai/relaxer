@@ -65,6 +65,8 @@ body {
   color: #fff;
 }
 
+/* Custom Mode Overlay */
+
 .custom-mode-overlay {
   position: absolute;
   width: 100%;
@@ -72,6 +74,10 @@ body {
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(36px);
   z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .custom-mode-overlay-close-btn {
@@ -86,13 +92,84 @@ body {
   cursor: pointer;
 }
 
-.custom-mode-overlay-close-btn i.fa-times {
+.custom-mode-overlay-close-btn i {
   font-size: 1.25rem;
 }
 
 .custom-mode-overlay-close-btn:active {
   transform: scale(0.9);
 }
+
+.custom-mode-inputs-container {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-mode-inputs-container .input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-mode-inputs-container .input-container input {
+  padding: 1rem;
+  margin: 0 0.75rem;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 1rem;
+  border: none;
+  background: rgba(0, 0, 0, 0.1);
+  color: #fff;
+  box-shadow: inset 0.1rem 0.1rem 24px 4px rgba(0, 0, 0, 0.25);
+  font-family: inherit;
+  font-size: 3rem;
+  text-align: center;
+  position: relative;
+}
+
+
+.custom-mode-inputs-container input::placeholder {
+  text-align: center;
+}
+
+.custom-mode-inputs-container input::-webkit-outer-spin-button,
+.custom-mode-inputs-container input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.custom-mode-inputs-container .input-container label {
+  font-size: 1rem;
+  margin-top: 0.25rem;
+  opacity: 0.5;
+}
+
+.custom-mode-btns-container {
+  margin-top: 4rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.custom-mode-btns-container button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+
+.custom-mode-btns-container button:active {
+  transform: scale(0.9);
+}
+
+.custom-mode-btns-container i {
+  font-size: 1.25rem;
+}
+
+/* Top Coontainer */
 
 #top-container {
   position: absolute;

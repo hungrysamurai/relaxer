@@ -18,15 +18,17 @@ import {
   soundButton,
   audio,
   animationStateIcon,
-  customModesOverlayOpenBtn,
-  customModesOverlayCloseBtn,
-  customModesOverlay,
+  customModeOverlayOpenBtn,
+  customModeOverlayCloseBtn,
+  customModeOverlay,
+  customModeInputs,
 } from "./DOMElements";
 
 import getInitialSchemaAndMode from "./utils/getInitials";
 import initModeBtns from "./utils/initModeBtns";
 import getTotalDuration from "./utils/getTotalDuration";
 import animationStateIconToggle from "./utils/animationStateIconToggle";
+import testInput from "./utils/testInput";
 
 // Globals
 let { currentColorSchema, currentMode, customMode } = getInitialSchemaAndMode();
@@ -134,7 +136,7 @@ function setAnimation(): void {
 }
 
 function setOverlay() {
-  gsap.set(customModesOverlay, {
+  gsap.set(customModeOverlay, {
     x: "100%",
   });
 }
@@ -216,19 +218,26 @@ modeBtns.forEach((btn) => {
 });
 
 // Custom modes overlay
-customModesOverlayOpenBtn?.addEventListener("click", () => {
-  gsap.to(customModesOverlay, {
+customModeOverlayOpenBtn?.addEventListener("click", () => {
+  gsap.to(customModeOverlay, {
     x: 0,
     duration: 0.2,
     ease: "Power4.in",
   });
 });
 
-customModesOverlayCloseBtn?.addEventListener("click", () => {
-  gsap.to(customModesOverlay, {
+customModeOverlayCloseBtn?.addEventListener("click", () => {
+  gsap.to(customModeOverlay, {
     x: "100%",
     duration: 0.2,
     ease: "Power4.out",
+  });
+});
+
+// Custom mode inputs
+customModeInputs.forEach((input) => {
+  input.addEventListener("input", (e) => {
+    if (e.target instanceof HTMLInputElement) testInput(e.target);
   });
 });
 

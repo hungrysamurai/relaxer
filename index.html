@@ -16,12 +16,41 @@
     <button class="custom-mode-overlay-close-btn">
       <i class="fa-solid fa-times"></i>
     </button>
+
+    <form class="custom-mode-inputs-container">
+      <div class="input-container">
+        <input type="number" placeholder="00" id="breath-1" min="0" max="20">
+        <label for="breath-1">Вдох</label>
+      </div>
+      <div class="input-container">
+        <input type="number" placeholder="00" id="hold-1" min="0" max="20">
+        <label for="hold-1">Задержка</label>
+      </div>
+      <div class="input-container">
+        <input type="number" placeholder="00" id="breath-2" min="0" max="20">
+        <label for="breath-2">Выдох</label>
+      </div>
+      <div class="input-container">
+        <input type="number" placeholder="00" id="hold-2" min="0" max="20">
+        <label for="hold-2">Задержка</label>
+      </div>
+    </form>
+
+    <div class="custom-mode-btns-container">
+      <button class="submit-custom-mode-btn">
+        <i class="fa-solid fa-check"></i>
+      </button>
+      <button class="reset-custom-mode-btn">
+        <i class="fa-solid fa-trash"></i>
+      </button>
+    </div>
   </div>
 
   <div id="top-container">
     <div class="mode-buttons">
       <button class="mode-btn active" data-mode="4-7-8">4-7-8</button>
       <button class="mode-btn" data-mode="4-4-4-4">4-4-4-4</button>
+
       <button class="mode-btn custom-mode-btn disable"></button>
     </div>
 

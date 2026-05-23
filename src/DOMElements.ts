@@ -25,14 +25,18 @@ const soundButton = document.querySelector(".soundbutton") as HTMLDivElement;
 const audio = document.querySelector(".audio") as HTMLAudioElement;
 const animationStateIcon = animationControlBtn.querySelector("i") as Element;
 
-// Custom modes overlay
-const customModesOverlayOpenBtn = document.querySelector(
+// Custom mode overlay
+const customModeOverlayOpenBtn = document.querySelector(
   ".custom-mode-overlay-open-btn",
 );
-const customModesOverlayCloseBtn = document.querySelector(
+const customModeOverlayCloseBtn = document.querySelector(
   ".custom-mode-overlay-close-btn",
 );
-const customModesOverlay = document.querySelector(".custom-mode-overlay");
+const customModeOverlay = document.querySelector(".custom-mode-overlay");
+
+const customModeInputs = document.querySelectorAll(
+  ".custom-mode-inputs-container .input-container input",
+) as NodeListOf<HTMLInputElement>;
 
 export {
   animationControlBtn,
@@ -48,7 +52,8 @@ export {
   soundButton,
   audio,
   animationStateIcon,
-  customModesOverlayOpenBtn,
-  customModesOverlayCloseBtn,
-  customModesOverlay,
+  customModeOverlayOpenBtn,
+  customModeOverlayCloseBtn,
+  customModeOverlay,
+  customModeInputs,
 };

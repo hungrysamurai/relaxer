@@ -22,13 +22,16 @@ import {
   customModeOverlayCloseBtn,
   customModeOverlay,
   customModeInputs,
+  customModeSubmitBtn,
+  customModeResetBtn,
 } from "./DOMElements";
 
-import getInitialSchemaAndMode from "./utils/getInitials";
+import getInitialSchemaAndMode from "./utils/getInitialSchemaAndMode";
 import initModeBtns from "./utils/initModeBtns";
 import getTotalDuration from "./utils/getTotalDuration";
 import animationStateIconToggle from "./utils/animationStateIconToggle";
-import testInput from "./utils/testInput";
+import validateInputData from "./utils/validateInputData";
+import { setInLocalStorage } from "./utils/localStorage";
 
 // Globals
 let { currentColorSchema, currentMode, customMode } = getInitialSchemaAndMode();
@@ -96,7 +99,7 @@ function updateColorSwitcher(schema: number): void {
       element.addEventListener("click", (e) => {
         if (e.target instanceof HTMLDivElement && e.target.dataset.color) {
           const newSchema = Number(e.target.dataset.color);
-          localStorage.setItem("relaxer-colorSchema", newSchema.toString());
+          localStorage.setItem("relaxer-color-schema", newSchema.toString());
           currentColorSchema = newSchema;
           // Re-init UI
           init();
@@ -198,47 +201,99 @@ function updateText(string: string): void {
   textEl.textContent = string;
 }
 
-// Events listeners
+function activateModeAndButton(buttonToActivate: HTMLButtonElement) {
+  modeBtns.forEach((btn) => btn.classList.remove("active"));
+
+  buttonToActivate.classList.add("active");
+  const mode = buttonToActivate.dataset.mode;
+
+  if (mode) {
+    currentDuration = getTotalDuration(mode);
+    currentMode = mode;
+    localStorage.setItem("relaxer-mode", mode);
+
+    init();
+  }
+}
+
+function toggleCustomModeOverlay(state: "open" | "close") {
+  gsap.to(customModeOverlay, {
+    x: state === "open" ? 0 : "100%",
+    duration: 0.2,
+    ease: "Power4.out",
+  });
+}
+
+// ///////////////////////    Events listeners
 
 // Mode buttons
 modeBtns.forEach((btn) => {
   btn.addEventListener("click", (e) => {
-    modeBtns.forEach((btn) => btn.classList.remove("active"));
-    if (e.target instanceof HTMLButtonElement && e.target.dataset.mode) {
-      e.target.classList.add("active");
-
-      const mode = e.target.dataset.mode;
-
-      currentDuration = getTotalDuration(mode);
-      currentMode = mode;
-      localStorage.setItem("relaxer-mode", mode);
-    }
-    init();
+    activateModeAndButton(e.target as HTMLButtonElement);
   });
 });
 
 // Custom modes overlay
 customModeOverlayOpenBtn?.addEventListener("click", () => {
-  gsap.to(customModeOverlay, {
-    x: 0,
-    duration: 0.2,
-    ease: "Power4.in",
-  });
+  toggleCustomModeOverlay("open");
 });
 
 customModeOverlayCloseBtn?.addEventListener("click", () => {
-  gsap.to(customModeOverlay, {
-    x: "100%",
-    duration: 0.2,
-    ease: "Power4.out",
-  });
+  toggleCustomModeOverlay("close");
 });
 
 // Custom mode inputs
 customModeInputs.forEach((input) => {
   input.addEventListener("input", (e) => {
-    if (e.target instanceof HTMLInputElement) testInput(e.target);
+    if (e.target instanceof HTMLInputElement) validateInputData(e.target);
   });
+});
+
+// Custom mode submit/reset buttons
+customModeSubmitBtn?.addEventListener("click", () => {
+  let newCustomModeValues: string[] = [];
+  customModeInputs.forEach((input) => {
+    newCustomModeValues.push(input.value || "0");
+  });
+
+  // if no breath in or breath out - return
+  if (newCustomModeValues[0] === "0" || newCustomModeValues[2] === "0") return;
+
+  // if last hold don't specify - remove last zero
+  if (newCustomModeValues[3] === "0") {
+    newCustomModeValues.pop();
+  }
+
+  customMode = newCustomModeValues.join("-");
+
+  customModeBtn.textContent = customMode;
+  customModeBtn.classList.remove("disable");
+  customModeBtn.dataset.mode = customMode;
+
+  setInLocalStorage("custom-mode", customMode);
+
+  activateModeAndButton(customModeBtn);
+
+  toggleCustomModeOverlay("close");
+});
+
+customModeResetBtn?.addEventListener("click", () => {
+  customModeInputs.forEach((input) => {
+    input.value = "";
+  });
+
+  customMode = null;
+  currentMode = "4-7-8";
+
+  customModeBtn.textContent = "";
+  customModeBtn.classList.add("disable");
+  delete customModeBtn.dataset.mode;
+
+  localStorage.removeItem("relaxer-custom-mode");
+
+  initModeBtns(modeBtns, currentMode, customMode, customModeBtn);
+  init();
+  toggleCustomModeOverlay("close");
 });
 
 // Toggle color changer container
@@ -276,6 +331,7 @@ window.onblur = function () {
 
 // Everything starts here
 window.addEventListener("DOMContentLoaded", () => {
+  // setInLocalStorage("custom-mode", "0-2-2");
   initModeBtns(modeBtns, currentMode, customMode, customModeBtn);
   init();
 });

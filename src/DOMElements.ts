@@ -38,6 +38,10 @@ const customModeInputs = document.querySelectorAll(
   ".custom-mode-inputs-container .input-container input",
 ) as NodeListOf<HTMLInputElement>;
 
+const customModeSubmitBtn = document.querySelector(".submit-custom-mode-btn");
+
+const customModeResetBtn = document.querySelector(".reset-custom-mode-btn");
+
 export {
   animationControlBtn,
   circleContainer,
@@ -56,4 +60,6 @@ export {
   customModeOverlayCloseBtn,
   customModeOverlay,
   customModeInputs,
+  customModeSubmitBtn,
+  customModeResetBtn,
 };

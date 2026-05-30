@@ -50,7 +50,6 @@ function init(): void {
   currentDuration = getTotalDuration(currentMode || "4-7-8");
   setColorSchema(Number(currentColorSchema));
   setAnimation();
-  setOverlay();
 }
 
 /**
@@ -208,7 +207,6 @@ function activateModeAndButton(buttonToActivate: HTMLButtonElement) {
   const mode = buttonToActivate.dataset.mode;
 
   if (mode) {
-    currentDuration = getTotalDuration(mode);
     currentMode = mode;
     localStorage.setItem("relaxer-mode", mode);
 
@@ -333,5 +331,6 @@ window.onblur = function () {
 window.addEventListener("DOMContentLoaded", () => {
   // setInLocalStorage("custom-mode", "0-2-2");
   initModeBtns(modeBtns, currentMode, customMode, customModeBtn);
+  setOverlay();
   init();
 });

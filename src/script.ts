@@ -27,12 +27,15 @@ import {
 } from "./DOMElements";
 
 import getInitialSchemaAndMode from "./utils/getInitialSchemaAndMode";
-import initModeBtns from "./utils/initModeBtns";
+import initModeBtns from "./utils/DOM/initModeBtns";
 import getTotalDuration from "./utils/getTotalDuration";
-import animationStateIconToggle from "./utils/animationStateIconToggle";
+import animationStateIconToggle from "./utils/DOM/animationStateIconToggle";
 import validateInputData from "./utils/validateInputData";
-import { setInLocalStorage } from "./utils/localStorage";
-import customModeOverlayOpenBtnIconToggle from "./utils/customOverlayOpenBtnIconToggle";
+import { getFromLocalStorage, setInLocalStorage } from "./utils/localStorage";
+import customModeOverlayOpenBtnIconToggle from "./utils/DOM/customOverlayOpenBtnIconToggle";
+import updateText from "./utils/textUpdater";
+import toggleCustomModeOverlay from "./utils/DOM/toggleCustomModeOverlay";
+import updateCustomModeBtn from "./utils/DOM/updateCustomModeBtn";
 
 // Globals
 let { currentColorSchema, currentMode, customMode } = getInitialSchemaAndMode();
@@ -46,7 +49,7 @@ let granimBG: Granim | undefined;
  * @property {Function} init - Init/ re-init animation & color schema
  */
 function init(): void {
-  animationStateIconToggle(animationStateIcon, true);
+  animationStateIconToggle(true);
 
   currentDuration = getTotalDuration(currentMode || "4-7-8");
   setColorSchema(Number(currentColorSchema));
@@ -99,7 +102,8 @@ function updateColorSwitcher(schema: number): void {
       element.addEventListener("click", (e) => {
         if (e.target instanceof HTMLDivElement && e.target.dataset.color) {
           const newSchema = Number(e.target.dataset.color);
-          localStorage.setItem("relaxer-color-schema", newSchema.toString());
+          setInLocalStorage("color-schema", newSchema.toString());
+
           currentColorSchema = newSchema;
           // Re-init UI
           init();
@@ -136,12 +140,6 @@ function setAnimation(): void {
       updateText,
     ),
   );
-}
-
-function setOverlay() {
-  gsap.set(customModeOverlay, {
-    x: "100%",
-  });
 }
 
 /**
@@ -195,12 +193,9 @@ function getAnimation(options: Keyframes): void {
 }
 
 /**
- * @property {Function} updateText - set textContent of textEl to @param
+ * @property {Function} activateModeAndButton - activate mode of relaxer according to pressed btn. Remove all 'active' classes and add only on active mode button. Update current mode and re init main animation
+ * @param {HTMLButtonElement} buttonToActivate
  */
-function updateText(string: string): void {
-  textEl.textContent = string;
-}
-
 function activateModeAndButton(buttonToActivate: HTMLButtonElement) {
   modeBtns.forEach((btn) => btn.classList.remove("active"));
 
@@ -209,21 +204,11 @@ function activateModeAndButton(buttonToActivate: HTMLButtonElement) {
 
   if (mode) {
     currentMode = mode;
-    localStorage.setItem("relaxer-mode", mode);
+    setInLocalStorage("mode", mode);
 
     init();
   }
 }
-
-function toggleCustomModeOverlay(state: "open" | "close") {
-  gsap.to(customModeOverlay, {
-    x: state === "open" ? 0 : "100%",
-    duration: 0.2,
-    ease: "Power4.out",
-  });
-}
-
-function toggleOverlayBtnIcon() {}
 
 // ///////////////////////    Events listeners
 
@@ -253,6 +238,7 @@ customModeInputs.forEach((input) => {
 // Custom mode submit/reset buttons
 customModeSubmitBtn?.addEventListener("click", () => {
   let newCustomModeValues: string[] = [];
+
   customModeInputs.forEach((input) => {
     newCustomModeValues.push(input.value || "0");
   });
@@ -267,16 +253,15 @@ customModeSubmitBtn?.addEventListener("click", () => {
 
   customMode = newCustomModeValues.join("-");
 
-  customModeBtn.textContent = customMode;
-  customModeBtn.classList.remove("disable");
-  customModeBtn.dataset.mode = customMode;
+  updateCustomModeBtn(customMode);
+
+  if (!getFromLocalStorage("custom-mode")) {
+    customModeOverlayOpenBtnIconToggle();
+  }
 
   setInLocalStorage("custom-mode", customMode);
-
   activateModeAndButton(customModeBtn);
-
   toggleCustomModeOverlay("close");
-  customModeOverlayOpenBtnIconToggle();
 });
 
 customModeResetBtn?.addEventListener("click", () => {
@@ -287,26 +272,24 @@ customModeResetBtn?.addEventListener("click", () => {
   customMode = null;
   currentMode = "4-7-8";
 
-  customModeBtn.textContent = "";
-  customModeBtn.classList.add("disable");
-  delete customModeBtn.dataset.mode;
+  updateCustomModeBtn();
 
   localStorage.removeItem("relaxer-custom-mode");
 
-  initModeBtns(modeBtns, currentMode, customMode, customModeBtn);
+  initModeBtns(currentMode, customMode);
   init();
   toggleCustomModeOverlay("close");
   customModeOverlayOpenBtnIconToggle();
 });
 
 // Toggle color changer container
-colorControlsContainer.addEventListener("click", (e) => {
+colorControlsContainer.addEventListener("click", () => {
   colorControlsContainer.classList.toggle("folded");
 });
 
 // Play/pause button
-animationControlBtn.addEventListener("click", (e) => {
-  animationStateIconToggle(animationStateIcon);
+animationControlBtn.addEventListener("click", () => {
+  animationStateIconToggle();
   if (mainTimeLine) {
     if (mainTimeLine._ts) {
       mainTimeLine.pause();
@@ -334,12 +317,16 @@ window.onblur = function () {
 
 // Everything starts here
 window.addEventListener("DOMContentLoaded", () => {
-  initModeBtns(modeBtns, currentMode, customMode, customModeBtn);
+  initModeBtns(currentMode, customMode);
 
   if (customMode) {
     customModeOverlayOpenBtnIconToggle();
   }
 
-  setOverlay();
+  // Initially hide custom mode overlay to
+  gsap.set(customModeOverlay, {
+    x: "100%",
+  });
+
   init();
 });

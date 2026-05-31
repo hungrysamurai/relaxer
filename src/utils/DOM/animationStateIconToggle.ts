@@ -1,7 +1,6 @@
-export default function animationStateIconToggle(
-  animationStateIcon: Element,
-  reset = false,
-) {
+import { animationStateIcon } from "../../DOMElements";
+
+export default function animationStateIconToggle(reset = false) {
   if (!reset) {
     if (animationStateIcon.classList.contains("fa-play")) {
       animationStateIcon.classList.remove("fa-play");

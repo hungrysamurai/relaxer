@@ -1,8 +1,8 @@
+import { modeBtns, customModeBtn } from "../../DOMElements";
+
 export default function initModeBtns(
-  modeBtns: NodeListOf<HTMLButtonElement>,
   currentMode: string,
   customMode: string | null,
-  customModeBtn: HTMLButtonElement,
 ) {
   if (customMode) {
     customModeBtn.textContent = customMode;

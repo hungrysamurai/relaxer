@@ -1,4 +1,4 @@
-import { customModeOverlayOpenBtn } from "../DOMElements";
+import { customModeOverlayOpenBtn } from "../../DOMElements";
 
 export default function customModeOverlayOpenBtnIconToggle(): void {
   const iconElement = customModeOverlayOpenBtn.children[0];

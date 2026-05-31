@@ -28,7 +28,7 @@ const animationStateIcon = animationControlBtn.querySelector("i") as Element;
 // Custom mode overlay
 const customModeOverlayOpenBtn = document.querySelector(
   ".custom-mode-overlay-open-btn",
-);
+) as HTMLButtonElement;
 const customModeOverlayCloseBtn = document.querySelector(
   ".custom-mode-overlay-close-btn",
 );

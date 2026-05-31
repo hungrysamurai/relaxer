@@ -32,6 +32,7 @@ import getTotalDuration from "./utils/getTotalDuration";
 import animationStateIconToggle from "./utils/animationStateIconToggle";
 import validateInputData from "./utils/validateInputData";
 import { setInLocalStorage } from "./utils/localStorage";
+import customModeOverlayOpenBtnIconToggle from "./utils/customOverlayOpenBtnIconToggle";
 
 // Globals
 let { currentColorSchema, currentMode, customMode } = getInitialSchemaAndMode();
@@ -222,6 +223,8 @@ function toggleCustomModeOverlay(state: "open" | "close") {
   });
 }
 
+function toggleOverlayBtnIcon() {}
+
 // ///////////////////////    Events listeners
 
 // Mode buttons
@@ -273,6 +276,7 @@ customModeSubmitBtn?.addEventListener("click", () => {
   activateModeAndButton(customModeBtn);
 
   toggleCustomModeOverlay("close");
+  customModeOverlayOpenBtnIconToggle();
 });
 
 customModeResetBtn?.addEventListener("click", () => {
@@ -292,6 +296,7 @@ customModeResetBtn?.addEventListener("click", () => {
   initModeBtns(modeBtns, currentMode, customMode, customModeBtn);
   init();
   toggleCustomModeOverlay("close");
+  customModeOverlayOpenBtnIconToggle();
 });
 
 // Toggle color changer container
@@ -329,8 +334,12 @@ window.onblur = function () {
 
 // Everything starts here
 window.addEventListener("DOMContentLoaded", () => {
-  // setInLocalStorage("custom-mode", "0-2-2");
   initModeBtns(modeBtns, currentMode, customMode, customModeBtn);
+
+  if (customMode) {
+    customModeOverlayOpenBtnIconToggle();
+  }
+
   setOverlay();
   init();
 });
